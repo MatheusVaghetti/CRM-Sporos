@@ -1,9 +1,20 @@
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import ConversationApi from '../../../../api/inbox/conversation';
 import mutationTypes from '../../../mutation-types';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+
+export const shouldMarkAsRead = conversation => {
+  if (!conversation) return false;
+  const lastMessage = conversation.last_non_activity_message;
+  if (!lastMessage) return false;
+  return lastMessage.message_type !== MESSAGE_TYPE.INCOMING;
+};
 
 export default {
-  markMessagesRead: async ({ commit }, data) => {
+  markMessagesRead: async ({ commit, state }, data) => {
+    const { allConversations } = state;
+    const conversation = allConversations.find(c => c.id === data.id);
+    if (!shouldMarkAsRead(conversation)) return;
     try {
       const {
         data: { id, agent_last_seen_at: lastSeen },
@@ -17,7 +28,6 @@ export default {
       // Handle error
     }
   },
-
   markMessagesUnread: async ({ commit }, { id }) => {
     try {
       const {
