@@ -94,6 +94,14 @@ const chatSortOptions = computed(() => [
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_desc.TEXT'),
     value: 'waiting_since_desc',
   },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_message_at_desc.TEXT'),
+    value: 'last_message_at_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_message_at_asc.TEXT'),
+    value: 'last_message_at_asc',
+  },
 ]);
 
 const activeChatStatusLabel = computed(

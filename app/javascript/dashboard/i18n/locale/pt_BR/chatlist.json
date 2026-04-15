@@ -76,6 +76,12 @@
       },
       "waiting_since_desc": {
         "TEXT": "Resposta pendente: Curtas primeiro"
+      },
+      "last_message_at_desc": {
+        "TEXT": "Última mensagem: Recentes primeiro"
+      },
+      "last_message_at_asc": {
+        "TEXT": "Última mensagem: Antigas primeiro"
       }
     },
     "ATTACHMENTS": {
