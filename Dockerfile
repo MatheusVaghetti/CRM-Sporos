@@ -5,8 +5,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN yarn install && \
-    yarn build
+RUN corepack enable && \
+    corepack prepare pnpm@10.2.0 --activate && \
+    pnpm install && \
+    pnpm build
 
 # Stage 2: imagem final
 FROM chatwoot/chatwoot:v4.9.1
