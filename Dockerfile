@@ -1,23 +1,24 @@
+# Stage 1: build do frontend
+FROM node:20 AS frontend-builder
+
+WORKDIR /app
+
+# Copia o projeto inteiro
+COPY . .
+
+# Instala dependências e compila
+RUN npm install -g yarn && \
+    yarn install && \
+    yarn build
+
+# Stage 2: imagem final
 FROM chatwoot/chatwoot:v4.9.1
 
 USER root
 
-# Copia arquivos backend
+# Copia arquivos backend modificados
 COPY app/models/concerns/sort_handler.rb /app/app/models/concerns/sort_handler.rb
 COPY app/finders/conversation_finder.rb /app/app/finders/conversation_finder.rb
 
-# Copia arquivos frontend
-COPY app/javascript/dashboard/store/modules/conversations/actions/messageReadActions.js \
-     /app/app/javascript/dashboard/store/modules/conversations/actions/messageReadActions.js
-COPY app/javascript/dashboard/constants/globals.js \
-     /app/app/javascript/dashboard/constants/globals.js
-COPY app/javascript/dashboard/components/widgets/conversation/ConversationBasicFilter.vue \
-     /app/app/javascript/dashboard/components/widgets/conversation/ConversationBasicFilter.vue
-COPY app/javascript/dashboard/i18n/locale/pt_BR/chatlist.json \
-     /app/app/javascript/dashboard/i18n/locale/pt_BR/chatlist.json
-COPY app/javascript/dashboard/i18n/locale/pt/chatlist.json \
-     /app/app/javascript/dashboard/i18n/locale/pt/chatlist.json
-
-# Recompila os assets do frontend
-WORKDIR /app
-RUN ls /app && ls /usr/local/bin | grep -E "yarn|npm|pnpm"
+# Copia os assets compilados do stage anterior
+COPY --from=frontend-builder /app/public/packs /app/public/packs
