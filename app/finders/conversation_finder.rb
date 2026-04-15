@@ -11,6 +11,8 @@ class ConversationFinder
     'priority_desc' => %w[sort_on_priority desc],
     'waiting_since_asc' => %w[sort_on_waiting_since asc],
     'waiting_since_desc' => %w[sort_on_waiting_since desc],
+    'last_message_at_asc' => %w[sort_on_last_message_at asc],
+    'last_message_at_desc' => %w[sort_on_last_message_at desc],
 
     # To be removed in v3.5.0
     'latest' => %w[sort_on_last_activity_at desc],

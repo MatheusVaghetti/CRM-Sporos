@@ -18,6 +18,19 @@ module SortHandler
       order(generate_sql_query("waiting_since #{sort_direction.to_s.upcase} NULLS LAST, created_at ASC"))
     end
 
+    def sort_on_last_message_at(sort_direction = :desc)
+      joins(
+        "LEFT JOIN messages ON messages.id = (
+          SELECT id FROM messages m
+          WHERE m.conversation_id = conversations.id
+            AND m.message_type IN (0, 1)
+            AND m.private = false
+          ORDER BY m.created_at DESC
+          LIMIT 1
+        )"
+      ).order(generate_sql_query("messages.created_at #{sort_direction.to_s.upcase} NULLS LAST"))
+    end
+
     def last_messaged_conversations
       Message.except(:order).select(
         'DISTINCT ON (conversation_id) conversation_id, id, created_at, message_type'
