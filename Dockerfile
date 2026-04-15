@@ -20,4 +20,4 @@ COPY app/javascript/dashboard/i18n/locale/pt/chatlist.json \
 
 # Recompila os assets do frontend
 WORKDIR /app
-RUN yarn build
+RUN ls /app && ls /usr/local/bin | grep -E "yarn|npm|pnpm"
