@@ -6,7 +6,6 @@ WORKDIR /app
 COPY . .
 
 RUN corepack enable && \
-    corepack prepare pnpm@10.2.0 --activate && \
     pnpm install && \
     pnpm build
 
