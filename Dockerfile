@@ -3,12 +3,9 @@ FROM node:20 AS frontend-builder
 
 WORKDIR /app
 
-# Copia o projeto inteiro
 COPY . .
 
-# Instala dependências e compila
-RUN npm install -g yarn && \
-    yarn install && \
+RUN yarn install && \
     yarn build
 
 # Stage 2: imagem final
